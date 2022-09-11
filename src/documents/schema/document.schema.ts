@@ -8,6 +8,9 @@ export class File {
     documentId: number;
 
     @Prop()
+    chatId: number;
+
+    @Prop()
     name: string;
 
     @Prop()
@@ -18,9 +21,6 @@ export class File {
 
     @Prop()
     accessTo: Array<number>; // UserIds
-
-    @Prop()
-    active: boolean;
 }
 
 export type FileDocument = File & Document;

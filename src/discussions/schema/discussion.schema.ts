@@ -10,13 +10,7 @@ export class Discussion {
 
     @Prop()
     title:string;
-
-    @Prop()
-    documents: Array<Document>;
-
-    @Prop()
-    chats: Array<Chat>;
-
+   
     @Prop()
     participants: Array<number>; // userIds
 

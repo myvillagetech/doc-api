@@ -4,4 +4,5 @@ export class CreateMessageDto {
     message: string;
     messageType: string;
     documentId: number;
+    active?: boolean;
 }

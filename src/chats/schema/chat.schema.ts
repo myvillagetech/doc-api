@@ -4,17 +4,15 @@ import { Message } from "src/messages/schema/message.schema";
 
 @Schema()
 export class Chat {
+    
     @Prop()
-    chatEntityId: number;
+    chatId: number;
 
     @Prop()
     title: string;
 
     @Prop()
-    owner: number; //UserId
-
-    @Prop()
-    messages: Array<Message>;
+    discussionId: number;
 
     @Prop()
     participants: Array<number>; // userIds

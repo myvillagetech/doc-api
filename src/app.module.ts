@@ -9,14 +9,20 @@ import { MessagesModule } from './messages/messages.module';
 import { ChatsModule } from './chats/chats.module';
 import { DiscussionsModule } from './discussions/discussions.module';
 
+const mongoUri = 'mongodb+srv://villagetech:Eoq74PCltSnTxzOw@cluster0.pr8wvzu.mongodb.net/?retryWrites=true&w=majority';
+
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://villagetech:Eoq74PCltSnTxzOw@cluster0.pr8wvzu.mongodb.net/?retryWrites=true&w=majority'
-    ),
+    MongooseModule.forRootAsync({
+      useFactory: async () => ({
+        uri: mongoUri,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }),
+    }),
+    ConfigModule.forRoot(),
     UsersModule,
     AuthModule,
-    ConfigModule.forRoot(),
     DocumentsModule,
     MessagesModule,
     ChatsModule,
@@ -24,4 +30,4 @@ import { DiscussionsModule } from './discussions/discussions.module';
   ],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule { }

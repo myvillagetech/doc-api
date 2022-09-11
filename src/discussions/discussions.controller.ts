@@ -26,6 +26,22 @@ export class DiscussionsController {
     }
   }
 
+  @Get()
+  async getDiscussions(@Res() response) {
+    try {
+      const discussionsData = await this.discussionsService.getDiscussions();
+      return response.status(HttpStatus.OK).json({
+        message: 'All discussions data found successfully',
+        data: discussionsData,
+      });
+    } catch (err) {
+      return response.status(err.status).json({
+        errorMessage: err.message,
+        errorCode: err.statusCode,
+      });
+    }
+  }
+
   @Patch('/:discussionId')
   async updateDiscussion(@Res() response, @Param('discussionId') discussionId: number, @Body() updateDiscussionDto: UpdateDiscussionDto) {
     try {
@@ -66,6 +82,19 @@ export class DiscussionsController {
   async getDiscussionBy(@Res() response, @Param('discussionId') discussionId: number) {
     try {
       const existingDiscussion = await this.discussionsService.getDiscussionBy(discussionId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Discussion found successfully',
+        existingDiscussion,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Get('/:owner')
+  async getDiscussionByOwner(@Res() response, @Param('owner') owner: number) {
+    try {
+      const existingDiscussion = await this.discussionsService.getDiscussionByOwner(owner);
       return response.status(HttpStatus.OK).json({
         message: 'Discussion found successfully',
         existingDiscussion,

@@ -11,13 +11,14 @@ export class ChatsService {
   constructor(@InjectModel('Chat') private chatModel: Model<ChatDocument>) { }
 
   async createChat(createChatDto: CreateChatDto): Promise<ChatDocument> {
+    createChatDto.active = true;
     const newUser = await new this.chatModel(createChatDto);
     return newUser.save();
   }
 
   async updateChat(chatId: number, updateChatDto: UpdateChatDto): Promise<ChatDocument> {
-    const existingChat = await this.chatModel.findByIdAndUpdate(
-      chatId,
+    const existingChat = await this.chatModel.findOneAndUpdate(
+      { chatId: chatId },
       updateChatDto,
       { new: true },
     );
@@ -52,7 +53,7 @@ export class ChatsService {
   }
 
   async deleteChat(chatId: number): Promise<ChatDocument> {
-    const deletedChat = await this.chatModel.findByIdAndDelete(chatId);
+    const deletedChat = await this.chatModel.findOneAndRemove({ chatId: chatId });
     if (!deletedChat) {
       throw new NotFoundException(`chat #${chatId} not found`);
     }

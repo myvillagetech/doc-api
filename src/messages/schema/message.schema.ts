@@ -8,6 +8,9 @@ export class Message {
     messageId: number;
 
     @Prop()
+    chartId: number;
+
+    @Prop()
     sender: number; // UserId
 
     @Prop()
@@ -15,12 +18,6 @@ export class Message {
 
     @Prop()
     messageType: string;
-
-    @Prop()
-    chartId: number;
-
-    @Prop()
-    documentEntityId: number;
 
     @Prop()
     createdDate: Date;
