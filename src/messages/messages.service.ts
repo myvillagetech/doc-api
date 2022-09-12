@@ -15,12 +15,28 @@ export class MessagesService {
     return newChat.save();
   }
 
-  async getMessagesBy(messageId: number): Promise<MessageDocument> {
+  async getMessageByMessageId(messageId: number): Promise<MessageDocument> {
     const existingMessage = await this.messageModel.findOne({ messageId: messageId }).exec();
     if (!existingMessage) {
       throw new NotFoundException(`Message #${messageId} not found`);
     }
     return existingMessage;
+  }
+
+  async getMessagesByChatId(chatId: number): Promise<MessageDocument[]> {
+    const messages = await this.messageModel.find({ chatId: chatId });
+    if (!messages || messages.length == 0) {
+      throw new NotFoundException('message data not found!');
+    }
+    return messages;
+  }
+
+  async getMessagesBy(discussionId: number): Promise<MessageDocument[]> {
+    const messages = await this.messageModel.find({ discussionId: discussionId });
+    if (!messages || messages.length == 0) {
+      throw new NotFoundException('chats data not found!');
+    }
+    return messages;
   }
 
   async deleteMessage(messageId: number): Promise<MessageDocument> {

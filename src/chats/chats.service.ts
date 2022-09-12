@@ -36,6 +36,23 @@ export class ChatsService {
     return existingChat;
   }
 
+  async getChatsBy(discussionId: number, ownerId: number): Promise<ChatDocument[]> {
+    var query = { $and: [{ discussionId: { $regex: discussionId, $options: 'i' } }, { ownerId: { $regex: ownerId, $options: 'i' } }] };
+    const existingChats = await this.chatModel.find(query);
+    if (!existingChats || existingChats.length == 0) {
+      throw new NotFoundException('chats data not found!');
+    }
+    return existingChats;
+  }
+
+  async getChatsByDiscussionId(discussionId: number): Promise<ChatDocument[]> {
+    const existingChats = await this.chatModel.find({ discussionId: discussionId });
+    if (!existingChats || existingChats.length == 0) {
+      throw new NotFoundException('chats data not found!');
+    }
+    return existingChats;
+  }
+
   async addChatParticipants(chatId: number, participants: Array<number>): Promise<ChatDocument> {
     const existingChat = await this.chatModel.findByIdAndUpdate(
       chatId,

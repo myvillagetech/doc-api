@@ -25,13 +25,26 @@ export class MessagesController {
     }
   }
 
-  @Get('/:chatId')
-  async getMessagesBy(@Res() response, @Param('chatId') chatId: number) {
+  @Get('/:messageId')
+  async getMessageBy(@Res() response, @Param('messageId') messageId: number) {
     try {
-      const existingMessage = await this.messagesService.getMessagesBy(chatId);
+      const existingMessage = await this.messagesService.getMessageByMessageId(+messageId);
       return response.status(HttpStatus.OK).json({
         message: 'Message found successfully',
         existingMessage,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Get('messagesByChatId/:chatId')
+  async getMessagesByChatId(@Res() response, @Param('chatId') chatId: number) {
+    try {
+      const messages = await this.messagesService.getMessagesByChatId(+chatId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Message found successfully',
+        messages,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

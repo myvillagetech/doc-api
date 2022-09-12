@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 export class Message {
 
     @Prop()
-    messageId: number;
+    messageId?: number;
 
     @Prop()
     chartId: number;
@@ -17,7 +17,10 @@ export class Message {
     message: string;
 
     @Prop()
-    messageType: string;
+    messageType?: string;
+    
+    @Prop()
+    documentId?: number;
 
     @Prop()
     createdDate: Date;

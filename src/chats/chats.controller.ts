@@ -65,10 +65,36 @@ export class ChatsController {
   @Get(':ownerId')
   async getChatBy(@Res() response, @Param('ownerId') ownerId: number) {
     try {
-      const existingChat = await this.chatsService.getChatBy(ownerId);
+      const existingChat = await this.chatsService.getChatBy(+ownerId);
       return response.status(HttpStatus.OK).json({
         message: 'Chat found successfully',
         existingChat,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Get(':discussionId')
+  async getChatsByDiscussionId(@Res() response, @Param('discussionId') discussionId: number) {
+    try {
+      const existingChats = await this.chatsService.getChatsByDiscussionId(+discussionId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Chat found successfully',
+        existingChats,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Get('/:discussionId/:ownerId')
+  async getChatsBy(@Res() response, @Param('discussionId') discussionId: number, @Param('ownerId') ownerId: number) {
+    try {
+      const existingChats = await this.chatsService.getChatsBy(+discussionId, +ownerId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Chat found successfully',
+        existingChats,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

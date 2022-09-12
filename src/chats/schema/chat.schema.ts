@@ -18,6 +18,9 @@ export class Chat {
     participants: Array<number>; // userIds
 
     @Prop()
+    owner: number;
+
+    @Prop()
     active: boolean;
 }
 
