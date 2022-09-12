@@ -7,9 +7,11 @@ import { UserDocument } from './schema/user.schema'
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel('User') private userModel: Model<UserDocument>) { }
 
   async createUser(createUserDto: CreateUserDto | SignUpDTO): Promise<UserDocument> {
+
+    createUserDto.active = true;
     const newUser = await new this.userModel(createUserDto);
     return newUser.save();
   }
@@ -38,7 +40,7 @@ export class UsersService {
   }
 
   async getUser(userId: number): Promise<UserDocument> {
-    const existingUser = await this.userModel.findById(userId).exec();
+    const existingUser = await this.userModel.findOne({ userId: userId }).exec();
     if (!existingUser) {
       throw new NotFoundException(`user #${userId} not found`);
     }
@@ -54,7 +56,7 @@ export class UsersService {
   }
 
   async deleteUser(userId: number): Promise<UserDocument> {
-    const deletedUser = await this.userModel.findByIdAndDelete(userId);
+    const deletedUser = await this.userModel.findOneAndRemove({ userId: userId });
     if (!deletedUser) {
       throw new NotFoundException(`user #${userId} not found`);
     }

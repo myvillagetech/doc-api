@@ -63,7 +63,6 @@ export class AuthService {
 
   async signup(signUpDTO: SignUpDTO) {
     await this.userService.createUser(signUpDTO);
-
     return true;
   }
 

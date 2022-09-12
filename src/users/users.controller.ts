@@ -20,7 +20,7 @@ import { UsersService } from './users.service';
 @Controller('/users')
 @ApiBearerAuth('access-token')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService) { }
 
   @Post()
   async createUser(@Res() response, @Body() userModel: CreateUserDto) {
@@ -39,10 +39,10 @@ export class UsersController {
     }
   }
 
-  @Put('/:id')
+  @Put('/:userId')
   async updateUser(
     @Res() response,
-    @Param('id') userId: number,
+    @Param('userId') userId: number,
     @Body() userModel: CreateUserDto,
   ) {
     try {
@@ -72,10 +72,10 @@ export class UsersController {
     }
   }
 
-  @Get('/:id')
-  async getUser(@Res() response, @Param('id') userId: number) {
+  @Get('/:userId')
+  async getUser(@Res() response, @Param('userId') userId: number) {
     try {
-      const existingUser = await this.userService.getUser(userId);
+      const existingUser = await this.userService.getUser(+userId);
       return response.status(HttpStatus.OK).json({
         message: 'User found successfully',
         existingUser,
@@ -85,8 +85,8 @@ export class UsersController {
     }
   }
 
-  @Delete('/:id')
-  async deleteUser(@Res() response, @Param('id') userId: number) {
+  @Delete('/:userId')
+  async deleteUser(@Res() response, @Param('userId') userId: number) {
     try {
       const deletedUser = await this.userService.deleteUser(userId);
       return response.status(HttpStatus.OK).json({

@@ -1,15 +1,13 @@
 import {
     IsNotEmpty,
     IsNumber,
-    isNumber,
     IsString,
     MaxLength,
 } from 'class-validator';
 
 export class CreateUserDto {
-    @IsNumber()
-    @IsNotEmpty()
-    readonly userId: number;
+   
+    userId?: number;
 
     @IsString()
     @MaxLength(30)
@@ -22,7 +20,7 @@ export class CreateUserDto {
     readonly lastName: string;
 
     @IsString()
-    @MaxLength(30)
+    @MaxLength(50)
     @IsNotEmpty()
     readonly email: string;
 
@@ -35,15 +33,12 @@ export class CreateUserDto {
     @MaxLength(30)
     @IsNotEmpty()
     readonly password: string;
+    
+    dob: Date;
 
-    @IsNotEmpty()
-    readonly dob: Date;
+    active: boolean;
 
-    @IsString()
-    @MaxLength(1)
-    readonly active: string;
-
-    readonly roles: Array<string>;
+    roles: Array<string>;
 
     address: object;
 }
